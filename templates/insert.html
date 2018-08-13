@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>服务器信息添加</title>
+</head>
+<body>
+    <form action="/insert/" method="post"> {% csrf_token %}
+        <label>机房名称</label>
+        <select id="idc" name="idc">
+        {% for line in server_list %}
+            <option value={{ line.id }}>{{ line.name }}</option>
+        {% endfor %}
+        </select>
+        <label>机房位置</label>
+        <input type="text" name="address"/><br>
+        <label>机房电话</label>
+        <input type="text" name="phone"/><br>
+        <label>客户号</label>
+        <input type="text" name="codeid"/><br>
+        <label>机柜位置</label>
+        <input type="text" name="cablocate"/><br>
+        <label>服务器型号</label>
+        <input type="text" name="setype"/><br>
+        <label>序列号</label>
+        <input type="text" name="serial"/><br>
+        <label>服务器IP地址</label>
+        <input type="text" name="ipaddr"/><br>
+        <input type="submit" value="提交"><br>
+        <h1>服务器信息列表</h1>
+    </form>
+</body>
+</html>

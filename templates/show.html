@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>server information</title>
+</head>
+<body>
+    <h1>服务器信息列表</h1>
+    <select id="idc" name="idc">
+        {% for line in server_list %}
+            <option value={{ line.id }}>{{ line.name }}</option>
+        {% endfor %}
+    </select>
+</body>
+</html>
