@@ -1,36 +1,39 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.shortcuts import render
-from seinfo import models
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from .models import IDCInfo 
+from .forms import IDCInfoForm
 
 # Create your views here.
 
-def insert(request):
-    if request.method == "POST":
-        name = request.POST.get("name",None)
-        address = request.POST.get("address",None)
-        phone = request.POST.get("phone",None)
-        codeid = request.POST.get("codeid",None)
-        idc = models.IDCInfo.objects.create(name=name,address=address,phone=phone,codeid=codeid)
 
-        cablocate = request.POST.get("cablocate",None)
-        IDCid_id = idc.id
-        cab = models.CabInfo.objects.create(cablocate=cablocate,IDCid_id=IDCid_id)
 
-        setype = request.POST.get("setype",None)
-        serial = request.POST.get("serial",None)
-        ipaddr = request.POST.get("ipaddr",None)
-        CabID_id =cab.id
-        models.ServerInfo.objects.create(type=setype, serial=serial, ipaddr=ipaddr, CabID_id=CabID_id)
-    server_list = models.IDCInfo.objects.all()
+# 添加机房信息.
+def idc_add(request):
+    if request.method == 'POST':
+        form = IDCInfoForm(request.POST)
+	if form.is_valid():
+	    idcinfo = form.save()
+	    return HttpResponse('add sucess')
+    else:
+        form = IDCInfoForm()
+	
+    return render(request,'idc_add.html',{'form': form})
 
 
 
+#更新机房信息
+def idc_update(request,idc_id):
+    idcinfo = get_object_or_404(IDCInfo, id=idc_id)
 
-    return render(request,'insert.html',{"server_list":server_list})
-
-
-def list(request):
-    server_list = models.IDCInfo.objects.all()
-    return render(request,'show.html',{"server_list":server_list})
+    if request.method == 'GET':
+        form = IDCInfoForm(instance=idcinfo)
+	return render(request,'idc_add.html', {'form': form})
+    elif request.method == 'POST':
+        form = IDCInfoForm(request.POST, instance=idcinfo)
+	if form.is_valid():
+	    form.save()
+	    return HttpResponse('update sucess')
+    return HttpResponse('Valid')

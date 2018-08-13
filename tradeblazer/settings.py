@@ -80,7 +80,7 @@ DATABASES = {
         'NAME': 'tradeblazer',
         'USER': 'tbadmin',
         'PASSWORD': '1',
-        'HOST': '192.168.2.90',
+        'HOST': '192.168.199.90',
         'PORT': '',
         'OPTION': {},
         'init_command': 'SET storage_engine=INNODB'
